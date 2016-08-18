@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>Schaakindeling</title>
+
+   <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+   <meta name="msapplication-tap-highlight" content="no" />
+
+
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.storageapi.min.js"></script>
+    <script type="text/javascript" src="js/sugar.min.js"></script>
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.3.min.css" type="text/css" />
+    <script type="text/javascript" src="js/schaakindeling.min.js"></script>
+<style>
+.vulrechts { float: right}
+</style>
+</head>
+<body>
+
+<div data-role="page" id="pagcompet">
+
+<div data-role="header"  data-theme="c"  data-position="fixed" ><h1>Indelen</h1></div>
+
+<div data-role="content">
+<div id="tooncompetnaam"></div>
+<div id="toonaantalspelers"></div>
+<br/><br/>
+<a href="javascript:toonspelers()"  data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline  ui-btn-icon-left ui-btn-a">Spelers</a>
+<a href="javascript:toonronde(0)"  data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline  ui-btn-icon-left ui-btn-a">Ronde</a>
+<a href="javascript:toonstand()"  data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline  ui-btn-icon-left ui-btn-a">Stand</a>
+<br/><br/>
+<a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Reset competitie ?</a>
+<div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:600px;">
+    <div data-role="header" data-theme="a"><h1>Reset competitieDelete Page?</h1></div>
+    <div role="main" class="ui-content"> <h3 class="ui-title">Bevestig deze keuze?</h3><p>De oude gegevens zijn dan weg.</p>
+        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Toch NIET doen !</a>
+        <a href="javascript:resetcompet()" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-transition="flow">Reset</a>
+    </div>
+</div>
+
+</div>
+
+
+</div>
+
+
+<div data-role="page" id="pagspelers">
+
+<div data-role="header"  data-theme="a"  data-position="fixed" ><h1>Spelers</h1>
+    <a href="#pagcompet" data-icon="gear" class="ui-btn-left">Terug</a></div>
+<div data-role="content" class="ui-content">
+<ol id="vlijst" data-role="listview"  data-theme="c"></ol>
+</div>
+</div>
+
+
+<div data-role="page" id="pagranglijst">
+
+<div data-role="header"  data-theme="a"  data-position="fixed" ><h1>Stand</h1>
+    <a href="#pagcompet" data-icon="gear" class="ui-btn-left">Terug</a>
+        <a href="javascript:toonronde(0)"   class="ui-bt-right">Ronde</a></div>
+<div data-role="content" class="ui-content">
+<ol id="ranglijst" data-role="listview"  data-theme="c"></ol>
+</div>
+</div>
+
+
+
+<div data-role="page" id="pagronde">
+<div data-role="header"  data-theme="a"  data-position="fixed"><h1><div id="rondenr">Ronde xx</div></h1>
+     <a href="#pagcompet" data-icon="gear" class="ui-btn-left">Terug</a>
+        <a href="javascript:toonstand()"   class="ui-bt-right">Stand</a></div>
+<div data-role="navbar">
+    <ul>
+        <li><a href="javascript:vorigeronde()">Vorige</a></li>
+        <li><a href="javascript:volgenderonde()" class="ui-btn-active">Volgende</a></li>
+    </ul>
+</div><!-- /navbar -->
+
+<div data-role="content" class="ui-content">
+<ol id="rondelijst" data-role="listview"  data-theme="c"></ol>
+</div>
+</div>
+
+
+
+<div data-role="page" id="pagspelerform">
+
+<div data-role="header"  data-theme="a"  data-position="fixed" ><h1>Speler</h1>
+    <a href="#pagspelers" data-icon="gear" class="ui-btn-left">Terug</a></div>
+<div data-role="content" class="ui-content">
+<form name="spelerform" action="javascript:bewaarspelerform(this)" >
+<label for="spelernaam"><div id="labelspeler">Text input:</div></label>
+<input type="hidden" name="spelernr" id="spelernr" value="" >
+<input type="text" name="spelernaam" id="spelernaam" value="">
+<input type="submit" value="Bewaar">
+</form>
+</div>
+</div>
+
+
+<div data-role="page" id="pagcompetform">
+
+<div data-role="header"  data-theme="a"  data-position="fixed" ><h1>Competitie</h1>
+    <a href="#pagcompet" data-icon="gear" class="ui-btn-left">Terug</a></div>
+<div data-role="content" class="ui-content">
+<form name="competform" action="javascript:bewaarcompetform(this)" >
+<label for="competnaam"><div id="labelcompetnaam">Omschrijving competitie:</div></label>
+<input type="text" name="competnaam" id="competnaam" value="">
+<label for="aantalspelers"><div id="labelaantalspelers">Aantal spelers (max 10):</div></label>
+<input type="text" name="aantalspelers" id="aantalspelers" value=0>
+<input type="submit" value="Bewaar">
+</form>
+</div>
+</div>
+
+
+
+<div data-role="page" id="paguitslagform">
+
+<div data-role="header"  data-theme="a"  data-position="fixed" ><h1>Uitslag</h1>
+    <a href="#pagronde" data-icon="gear" class="ui-btn-left">Terug</a></div>
+<div data-role="content" class="ui-content">
+<form name="uitslagform" action="javascript:bewaaruitslagform(this)" >
+<input type="hidden" name="ronde" id="ronde" value=0>
+<input type="hidden" name="tafel" id="tafel" value=0 >
+<label for="witspeler">Witspeler</label>
+<input type="text" name="witspeler" id="witspeler" value="" readonly>
+<label for="zwartspeler">Zwartspeler</label>
+<input type="text" name="zwartspeler" id="zwartspeler" value="" readonly>
+    <div class="ui-field-contain">
+    <fieldset data-role="controlgroup" data-type="horizontal">
+        <legend>Uitslag</legend>
+        <input class="uitslagscore" type="radio" name="score" id="score0" value=0 checked="checked">
+        <label for="score0">n.g.</label>
+        <input class="uitslagscore" type="radio" name="score" id="score1" value=1>
+        <label for="score1">1-0</label>
+        <input class="uitslagscore" type="radio" name="score" id="score2" value=2>
+        <label for="score2">0-1</label>
+        <input class="uitslagscore" type="radio" name="score" id="score3" value=3>
+        <label for="score3">rem</label>
+    </fieldset>
+   </div>
+<input type="submit" value="Bewaar">
+</form>
+</div>
+</div>
+
+
+
+</body>
+</html>
+
+
